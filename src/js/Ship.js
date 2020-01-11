@@ -9,8 +9,12 @@ const Ship = (length) => {
         return shipArray.every(position => position === true);
     }
 
+    const consLog = () => {
+        console.log(shipArray)
+    }
+
     return {
-        hit, isSunk, length
+        hit, isSunk, length, consLog
     }
 
 

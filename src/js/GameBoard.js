@@ -1,6 +1,8 @@
 const GameBoard = () => {
     const board = [...Array(10)].map(x=>Array(10).fill(null));
     let shipCoordinates = [];
+    let isHit;
+
 
     const renderShipOnBoard = (ship, position, orientation) => {
         if (orientation === 'V') {
@@ -13,11 +15,8 @@ const GameBoard = () => {
             }
         }
     }
-/*
-    const checkPosition = (initialPosition, finalPosition) {
 
-
- }*/  
+    //const renderAttackOnboard = ()
 
     const validatePosition = (ship, position, orientation) => {
         for(let i=0; i < shipCoordinates.length; i+=1) {
@@ -26,7 +25,8 @@ const GameBoard = () => {
             let finalRow = shipCoordinates[i].position.row + shipCoordinates[i].ship.length -1;
             let finalColumn = shipCoordinates[i].position.column + shipCoordinates[i].ship.length -1;
             
-            if (shipCoordinates[i].orientation === 'V' && orientation === 'V' && ((position.row + ship.length - 1 >= initialRow && position.row + ship.length - 1 <= finalRow) || (position.row >= initialRow && position.row<= finalRow)) && initialCol === position.column) {
+            if (shipCoordinates[i].orientation === 'V' && orientation === 'V' && 
+            ((position.row + ship.length - 1 >= initialRow && position.row + ship.length - 1 <= finalRow) || (position.row >= initialRow && position.row<= finalRow)) && initialCol === position.column) {
                 return false;
             } else if (shipCoordinates[i].orientation === 'H' && orientation === 'V' && (position.row <= initialRow && position.row + ship.length - 1 >= initialRow) && (initialCol <= position.column && position.column <= finalColumn)){
                 return false;
@@ -47,8 +47,32 @@ const GameBoard = () => {
         return true;
     }
 
+    const isHittingShip = (position) => {
+        for (let i = 0; i < shipCoordinates.length; i += 1) {
+            let initialRow =  shipCoordinates[i].position.row;
+            let initialCol =  shipCoordinates[i].position.column;
+            console.log(position.row, initialRow,(shipCoordinates[i].position.column >= position.column), (position.row - initialRow >= 0),(position.row - initialRow <= shipCoordinates[i].ship.length-1) )
+            if(shipCoordinates[i].orientation ==='V' && initialCol >= position.column && position.row - initialRow >= 0 && position.row - initialRow <= shipCoordinates[i].ship.length -1){
+                shipCoordinates[i].ship.hit(position.row - initialRow);
+                return true
+            } else if (shipCoordinates[i].orientation ==='H' && initialRow >= position.row && position.column - initialCol >= 0 && position.column - initialCol <= shipCoordinates[i].ship.length -1 ){
+                shipCoordinates[i].ship.hit(position.column - initialCol);
+                return true
+            }
+        }
+        return false
+    }
+
+    const receiveAttack = (position) => {
+        isHit = isHittingShip(position);
+        console.log(isHit);
+
+    }
+
+    const getIsHit = () => isHit;
+
     return {
-        placeShip,
+        placeShip, receiveAttack, getIsHit
     }
 
 }

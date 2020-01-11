@@ -122,7 +122,7 @@ test('placing ship in available position oldHorizontal newHorizontal', () => {
     expect(isShipPlaced2).toBe(true);
 });
 
-test.only('placing ship in occupied position oldHorizontal newHorizontal', () => {
+test('placing ship in occupied position oldHorizontal newHorizontal', () => {
     const ship1 = Ship(3);
     const ship2 = Ship(3);
     const shipPosition1= { row: 1, column: 3}
@@ -136,29 +136,48 @@ test.only('placing ship in occupied position oldHorizontal newHorizontal', () =>
     expect(isShipPlaced2).toBe(false);
 });
 
-test('placing ship in adjacent position', () => {
+
+test('receiving attack with hitting a Vertical ship', () => {
     const ship1 = Ship(3);
-    const ship2 = Ship(3);
+    const shipPosition1= { row: 4, column: 3}
+    const orientation1 = 'V';
 
-    const initialPosition = { row: 0, column: 3}
-    const finalPosition = {row: 2, column: 3}
-    const coordinates1 = [initialPosition, finalPosition]
-
-    const initialPosition2 = { row: 0, column: 2}
-    const finalPosition2 = {row: 2, column: 2}
-    const coordinates2 = [initialPosition2, finalPosition2]
-
-    GameBoard.placeShip(coordinates1, ship1);
-    const shipPlaced2 = GameBoard.placeShip(coordinates2, ship2);
-    expect(shipPlaced2).toBe(false);
-});
-
-test('receiving attack without finishing the game', () => {
-    const attackedPosition = { row: 0, column: 3}
-    GameBoard.receiveAttack(attackedPosition);
-    expect(GameBoard.isOver()).toBe(false);
+    const gameBoard1 = GameBoard();
+    gameBoard1.placeShip(ship1,shipPosition1, orientation1);
+    const attackedPosition = { row: 5, column: 3}
+    gameBoard1.receiveAttack(attackedPosition);
+    expect(gameBoard1.getIsHit()).toBe(true);
 
 });
+
+test('receiving attack with hitting a Horizontal ship', () => {
+    const ship1 = Ship(3);
+    const shipPosition1= { row: 2, column: 4}
+    const orientation1 = 'H';
+    
+    const gameBoard1 = GameBoard();
+    gameBoard1.placeShip(ship1,shipPosition1, orientation1);
+
+    const attackedPosition = { row: 2, column: 6}
+    gameBoard1.receiveAttack(attackedPosition);
+    expect(gameBoard1.getIsHit()).toBe(true);
+
+});
+
+test.only('receiving attack without hitting', () => {
+    const ship1 = Ship(3);
+    const shipPosition1= { row: 2, column: 4}
+    const orientation1 = 'H';
+    
+    const gameBoard1 = GameBoard();
+    gameBoard1.placeShip(ship1,shipPosition1, orientation1);
+
+    const attackedPosition = { row: 2, column: 8}
+    gameBoard1.receiveAttack(attackedPosition);
+    expect(gameBoard1.getIsHit()).toBe(false);
+
+});
+
 test('receiving attack which sink the last ship', ()=> {
     const newShip = Ship(3);
     const initialPosition = { row: 0, column: 3}
