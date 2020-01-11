@@ -147,6 +147,7 @@ test('receiving attack with hitting a Vertical ship', () => {
     const attackedPosition = { row: 5, column: 3}
     gameBoard1.receiveAttack(attackedPosition);
     expect(gameBoard1.getIsHit()).toBe(true);
+    expect(gameBoard1.IsOver()).toBe(false);
 
 });
 
@@ -161,10 +162,12 @@ test('receiving attack with hitting a Horizontal ship', () => {
     const attackedPosition = { row: 2, column: 6}
     gameBoard1.receiveAttack(attackedPosition);
     expect(gameBoard1.getIsHit()).toBe(true);
+    expect(gameBoard1.IsOver()).toBe(false);
+
 
 });
 
-test.only('receiving attack without hitting', () => {
+test('receiving attack without hitting', () => {
     const ship1 = Ship(3);
     const shipPosition1= { row: 2, column: 4}
     const orientation1 = 'H';
@@ -175,22 +178,35 @@ test.only('receiving attack without hitting', () => {
     const attackedPosition = { row: 2, column: 8}
     gameBoard1.receiveAttack(attackedPosition);
     expect(gameBoard1.getIsHit()).toBe(false);
+    expect(gameBoard1.IsOver()).toBe(false);
 
 });
 
 test('receiving attack which sink the last ship', ()=> {
-    const newShip = Ship(3);
-    const initialPosition = { row: 0, column: 3}
-    const finalPosition = {row: 2, column: 3}
-    const coordinates = [initialPosition, finalPosition]
-    GameBoard.placeShip(coordinates, newShip);
+    const ship1 = Ship(3);
+    const shipPosition1= { row: 4, column: 3}
+    const orientation1 = 'V';
+    const gameBoard1 = GameBoard();
+    gameBoard1.placeShip(ship1,shipPosition1, orientation1);
 
-    let attackedPosition = { row: 0, column: 3}
-    GameBoard.receiveAttack(attackedPosition);
-    attackedPosition = { row: 1, column: 3}
-    GameBoard.receiveAttack(attackedPosition);
-    attackedPosition = { row: 2, column: 3}
-    GameBoard.receiveAttack(attackedPosition);
-    expect(GameBoard.isOver()).toBe(true);
+    const ship2 = Ship(2);
+    const shipPosition2= { row: 2, column: 4}
+    const orientation2 = 'H';
+    gameBoard1.placeShip(ship2,shipPosition2, orientation2);
+
+    // Sinking ship 1
+    gameBoard1.receiveAttack({row: 4, column: 3});
+    expect(gameBoard1.getIsHit()).toBe(true);
+    gameBoard1.receiveAttack({row: 5, column: 3});
+    expect(gameBoard1.getIsHit()).toBe(true);
+    gameBoard1.receiveAttack({row: 6, column: 3});
+    expect(gameBoard1.getIsHit()).toBe(true);
+    expect(gameBoard1.IsOver()).toBe(false);
+    // Sinking ship 2
+    gameBoard1.receiveAttack({row: 2, column: 4});
+    expect(gameBoard1.getIsHit()).toBe(true);
+    gameBoard1.receiveAttack({row: 2, column: 5});
+    expect(gameBoard1.getIsHit()).toBe(true);
+    expect(gameBoard1.IsOver()).toBe(true);
 
 });

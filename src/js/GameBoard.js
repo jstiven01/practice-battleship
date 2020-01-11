@@ -16,7 +16,8 @@ const GameBoard = () => {
         }
     }
 
-    //const renderAttackOnboard = ()
+    const IsOver = () => shipCoordinates.length === 0;
+
 
     const validatePosition = (ship, position, orientation) => {
         for(let i=0; i < shipCoordinates.length; i+=1) {
@@ -43,7 +44,6 @@ const GameBoard = () => {
         if (!validatePosition(ship, position, orientation)) return false;
         shipCoordinates.push({ship, position, orientation});
         renderShipOnBoard(ship, position, orientation);
-        console.log(board);
         return true;
     }
 
@@ -51,28 +51,33 @@ const GameBoard = () => {
         for (let i = 0; i < shipCoordinates.length; i += 1) {
             let initialRow =  shipCoordinates[i].position.row;
             let initialCol =  shipCoordinates[i].position.column;
-            console.log(position.row, initialRow,(shipCoordinates[i].position.column >= position.column), (position.row - initialRow >= 0),(position.row - initialRow <= shipCoordinates[i].ship.length-1) )
             if(shipCoordinates[i].orientation ==='V' && initialCol >= position.column && position.row - initialRow >= 0 && position.row - initialRow <= shipCoordinates[i].ship.length -1){
                 shipCoordinates[i].ship.hit(position.row - initialRow);
+                if (shipCoordinates[i].ship.isSunk()) shipCoordinates.splice(i, 1);
                 return true
             } else if (shipCoordinates[i].orientation ==='H' && initialRow >= position.row && position.column - initialCol >= 0 && position.column - initialCol <= shipCoordinates[i].ship.length -1 ){
                 shipCoordinates[i].ship.hit(position.column - initialCol);
+                if (shipCoordinates[i].ship.isSunk()) shipCoordinates.splice(i, 1);
                 return true
             }
         }
         return false
     }
 
+    const saveAttack = (position) => {
+        board[position.row][position.column] = isHit ?  'X' :'M';
+    }
+
     const receiveAttack = (position) => {
         isHit = isHittingShip(position);
-        console.log(isHit);
-
+        saveAttack(position);
+        console.log(board);
     }
 
     const getIsHit = () => isHit;
 
     return {
-        placeShip, receiveAttack, getIsHit
+        placeShip, receiveAttack, getIsHit, IsOver,
     }
 
 }
