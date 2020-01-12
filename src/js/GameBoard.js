@@ -3,6 +3,7 @@ const GameBoard = () => {
     let shipCoordinates = [];
     let isHit;
 
+    const getBoard = () => board;
 
     const renderShipOnBoard = (ship, position, orientation) => {
         if (orientation === 'V') {
@@ -71,13 +72,12 @@ const GameBoard = () => {
     const receiveAttack = (position) => {
         isHit = isHittingShip(position);
         saveAttack(position);
-        console.log(board);
     }
 
     const getIsHit = () => isHit;
 
     return {
-        placeShip, receiveAttack, getIsHit, IsOver,
+        placeShip, receiveAttack, getIsHit, IsOver, getBoard,
     }
 
 }
