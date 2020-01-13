@@ -24,6 +24,20 @@ test('placing ship in same occupied position', () => {
     expect(isShipPlaced2).toBe(false);
 });
 
+test('placing ship in same occupied position oldHorizontal NewVertical', () => {
+    const ship1 = Ship(3);
+    const ship2 = Ship(5);
+    const shipPosition1= { row: 2, column: 3}
+    const orientation1 = 'V';
+    const shipPosition2= { row: 2, column: 3}
+    const orientation2 = 'H';
+    
+    const gameBoard1 = GameBoard();
+    gameBoard1.placeShip(ship1,shipPosition1, orientation1);
+    const isShipPlaced2 = gameBoard1.placeShip(ship2,shipPosition2, orientation2);
+    expect(isShipPlaced2).toBe(false);
+});
+
 test('placing ship in available position oldHorizontal newVertical', () => {
     const ship1 = Ship(3);
     const ship2 = Ship(3);

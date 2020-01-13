@@ -8,11 +8,11 @@ const GameBoard = () => {
     const renderShipOnBoard = (ship, position, orientation) => {
         if (orientation === 'V') {
             for(let i= position.row; i< position.row + ship.length; i+=1){
-                board[i][position.column]= 'S';
+                board[i][position.column]= ship.getType();
             }
         } else {
             for(let i= position.column; i< position.column + ship.length; i+=1){
-                board[position.row][i]= 'S';
+                board[position.row][i]= ship.getType();
             }
         }
     }
@@ -52,11 +52,11 @@ const GameBoard = () => {
         for (let i = 0; i < shipCoordinates.length; i += 1) {
             let initialRow =  shipCoordinates[i].position.row;
             let initialCol =  shipCoordinates[i].position.column;
-            if(shipCoordinates[i].orientation ==='V' && initialCol >= position.column && position.row - initialRow >= 0 && position.row - initialRow <= shipCoordinates[i].ship.length -1){
+            if(shipCoordinates[i].orientation ==='V' && initialCol === position.column && position.row - initialRow >= 0 && position.row - initialRow <= shipCoordinates[i].ship.length -1){
                 shipCoordinates[i].ship.hit(position.row - initialRow);
                 if (shipCoordinates[i].ship.isSunk()) shipCoordinates.splice(i, 1);
                 return true
-            } else if (shipCoordinates[i].orientation ==='H' && initialRow >= position.row && position.column - initialCol >= 0 && position.column - initialCol <= shipCoordinates[i].ship.length -1 ){
+            } else if (shipCoordinates[i].orientation ==='H' && initialRow === position.row && position.column - initialCol >= 0 && position.column - initialCol <= shipCoordinates[i].ship.length -1 ){
                 shipCoordinates[i].ship.hit(position.column - initialCol);
                 if (shipCoordinates[i].ship.isSunk()) shipCoordinates.splice(i, 1);
                 return true

@@ -15,3 +15,8 @@ test('hitting a ship in all positions and checking is Sunk', ()=> {
     expect(newShip.isSunk()).toBe(true);
 });
 
+test('Checking type of ship', ()=> {
+    const newShip = Ship(5);
+    expect(newShip.getType()).toBe('5');
+})
+

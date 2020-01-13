@@ -1,6 +1,11 @@
 import Ship from '../js/Ship'
-const Player = (name, type) =>{
-    const navalFleet = [Ship(5), Ship(4), Ship(3), Ship(3),Ship(2) ];
+
+const Player = (name, type, navalFleet) =>{
+    let turn;
+
+    const getTurn = ()=> turn ;
+
+    const setTurn = (bool) => turn = bool;
 
     const randomPosition = (length = 0) => {
 
@@ -21,15 +26,23 @@ const Player = (name, type) =>{
             while (flag) {
                 let orientation = Math.round(Math.random()) === 0 ? 'H' : 'V';
                 let position = randomPosition(navalFleet[index].length)
-                console.log(position, orientation);
                 flag = !gameBoard.placeShip(navalFleet[index], position, orientation);
             }
         }
     }
 
+    const attackRival = (board, position = {}) => {
+        let positionToAttack = position;
+        if(type === 'C') {
+            positionToAttack = randomPosition();
+        }
+        board.receiveAttack(positionToAttack);
+        if(!board.getIsHit()) turn = false;
+    }
+
 
     return {
-        name, type, setShips
+        name, type, setShips, getTurn, attackRival, setTurn,
     }
 
 }
