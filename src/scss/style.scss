@@ -33,10 +33,32 @@
 }
 
 .color-button-X {
-    background-color : white;
+    background-image: url(../img/explosion.png);
+    background-size: cover;
+    background-position: center;
 }
 
 .color-button-M {
-    background-color : #00C9A7;
+    background-image: url(../img/missedshot.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.main-background{
+    background-image: url(../img/ship.jpg);
+     background-size: cover;
+     height: 100vh;
+}
+
+h1,h3 { 
+    color: white !important;
+    font-weight : bold; 
+}
+h1 {
+    font-size: 50px !important;
+}
+.versus {
+    font-size: 86px !important;
+    color: white;
 
 }
