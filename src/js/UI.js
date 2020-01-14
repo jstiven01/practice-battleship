@@ -4,7 +4,6 @@ const UI = (() => {
 
   const renderInitialBoards = (player, gameBoard) => {
     let divRender;
-    console.log(player.type);
     if (player.type === 'H') {
       divRender = boardPlayer1;
     } else {

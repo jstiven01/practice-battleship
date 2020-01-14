@@ -23,8 +23,8 @@ const sectionPlayer1 = document.getElementById('section-player-1');
 
 const playHuman = (e) => {
   if (!gameBoardPC.IsOver() && !gameBoardH.IsOver() && playerHuman.getTurn()) {
-    const { row } = e.target.dataset;
-    const { column } = e.target.dataset;
+    const row  = parseInt(e.target.dataset.row,10);
+    const column = parseInt(e.target.dataset.column,10);
     playerHuman.attackRival(gameBoardPC, { row, column });
     UI.renderAttackBoard(playerPC, gameBoardPC, { row, column }, e);
     console.log('PlayHuman', gameBoardPC.getBoard());
